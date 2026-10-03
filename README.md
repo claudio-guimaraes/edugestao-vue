@@ -1,6 +1,15 @@
 # EduGestão
 
-Aplicação One Page desenvolvida em Vue.js para o Projeto Prático da disciplina de Frameworks Front-End.
+Aplicação One Page desenvolvida em Vue.js para o Projeto Prático da disciplina de Frameworks Front-End, do curso de Análise e Desenvolvimento de Sistemas (ADS) da UNAMA – Universidade da Amazônia.
+
+**Professor: André Avelino**
+
+**Integrantes da equipe:**
+
+* Arthur Napoleão Figueiredo Neto - 04211004
+* Beatriz Miranda da Costa - 04221323
+* Cláudio Fernandes Guimarães - 26128810
+* Valéria de Sousa Moreira - 04222055
 
 ## Tema
 
@@ -73,7 +82,7 @@ São utilizadas para mostrar a situação do aluno de acordo com sua média:
 
 A aplicação utiliza `ref()` para trabalhar com dados que podem mudar durante o uso da aplicação, como a pesquisa, o aluno selecionado e a mensagem de confirmação.
 
-Também é utilizado `computed()` para realizar alguns cálculos automaticamente, como a quantidade de alunos por turma e a quantidade de disciplinas.
+Também é utilizada a função `computed()` para realizar alguns cálculos automaticamente, como a quantidade de alunos por turma e a quantidade de disciplinas.
 
 ## Cálculo das médias
 
@@ -117,13 +126,13 @@ Os prompts abaixo foram utilizados pela equipe para fazer alterações, tirar d�
 
 ### Prompt da etapa 4 — Quantidade automática de alunos por turma
 
-> No meu projeto Vue.js de Gestão Escolar, quero que a quantidade de alunos de cada turma seja calculada automaticamente a partir da lista de alunos, em vez de informar manualmente essa quantidade no objeto de cada turma. Utilize computed() e mantenha o código simples, usando apenas os conceitos de Vue estudados na disciplina.
+> No meu projeto Vue.js de Gestão Escolar, quero que a quantidade de alunos de cada turma seja calculada automaticamente a partir da lista de alunos, em vez de informar manualmente essa quantidade no objeto de cada turma. Utilize `computed()` e mantenha o código simples, usando apenas os conceitos de Vue estudados na disciplina.
 
 **Uso:** fazer com que a quantidade de alunos de cada turma seja calculada automaticamente.
 
 ### Prompt da etapa 5 — Situação no boletim
 
-> No meu projeto Vue.js de Gestão Escolar, quero que o boletim de cada aluno mostre também sua situação acadêmica, calculada automaticamente a partir da média das notas. Utilize as categorias Aprovado para média igual ou superior a 7, Recuperação para média entre 5 e 6,9 e Reprovado para média abaixo de 5. Utilize computed(), diretivas Vue e CSS próprio, mantendo o código simples e compatível com os conceitos estudados na disciplina.
+> No meu projeto Vue.js de Gestão Escolar, quero que o boletim de cada aluno mostre também sua situação acadêmica, calculada automaticamente a partir da média das notas. Utilize as categorias Aprovado para média igual ou superior a 7, Recuperação para média entre 5 e 6,9 e Reprovado para média abaixo de 5. Utilize `computed()`, diretivas Vue e CSS próprio, mantendo o código simples e compatível com os conceitos estudados na disciplina.
 
 **Uso:** verificar a possibilidade de mostrar a situação do aluno também na consulta de notas.
 
@@ -165,3 +174,4 @@ O projeto foi desenvolvido sem utilizar:
 * bibliotecas externas de gerenciamento de estado;
 * backend;
 * banco de dados.
+

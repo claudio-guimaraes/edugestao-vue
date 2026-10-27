@@ -1,6 +1,6 @@
 <template>
   <header class="cabecalho">
-    <div class="cabecalho-conteudo">
+    <div class="cabecalho-conteudo container d-flex justify-content-between align-items-center">
       <div class="logo">
         <span class="icone">E</span>
         <div>
@@ -9,7 +9,7 @@
         </div>
       </div>
 
-      <span class="status">Painel escolar</span>
+      <span class="status badge bg-warning text-dark">Painel escolar</span>
     </div>
   </header>
 </template>

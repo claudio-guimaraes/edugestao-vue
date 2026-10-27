@@ -7,33 +7,33 @@ defineProps({
 </script>
 
 <template>
-  <section class="resumo">
-    <div class="item">
-      <span>Alunos</span>
-      <strong>{{ totalAlunos }}</strong>
+  <section class="resumo row g-3">
+    <div class="col-md-4">
+      <div class="item bg-primary rounded-3 p-3">
+        <span class="text-white">Alunos</span>
+        <strong class="text-white">{{ totalAlunos }}</strong>
+      </div>
     </div>
 
-    <div class="item">
-      <span>Turmas</span>
-      <strong>{{ totalTurmas }}</strong>
+    <div class="col-md-4">
+      <div class="item bg-success rounded-3 p-3">
+        <span class="text-white">Turmas</span>
+        <strong class="text-white">{{ totalTurmas }}</strong>
+      </div>
     </div>
 
-    <div class="item">
-      <span>Disciplinas</span>
-      <strong>{{ totalDisciplinas }}</strong>
+    <div class="col-md-4">
+      <div class="item bg-secondary rounded-3 p-3">
+        <span class="text-white">Disciplinas</span>
+        <strong class="text-white">{{ totalDisciplinas }}</strong>
+      </div>
     </div>
   </section>
 </template>
 
 <style scoped>
-.resumo {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
 
 .item {
-  background: white;
   border: 1px solid #e5e7eb;
   border-radius: 14px;
   padding: 20px;
@@ -45,14 +45,12 @@ defineProps({
 }
 
 .item span {
-  color: #64748b;
   font-size: 14px;
 }
 
 .item strong {
   margin-top: 7px;
   font-size: 30px;
-  color: #1e3a8a;
 }
 
 @media (max-width: 600px) {

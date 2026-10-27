@@ -1,5 +1,5 @@
 <template>
-  <footer class="rodape">
+  <footer class="rodape text-center py-4">
     <p>EduGestão — Projeto Prático de Vue.js</p>
     <small>Aplicação acadêmica para demonstração de conceitos de Front-End.</small>
   </footer>

@@ -14,7 +14,7 @@ defineProps({
       <h2>Turmas cadastradas</h2>
     </div>
 
-    <div class="tabela">
+    <div class="tabela border rounded-3 overflow-hidden">
       <div class="linha cabecalho">
         <strong>Turma</strong>
         <strong>Turno</strong>
@@ -24,7 +24,7 @@ defineProps({
       <div
         v-for="turma in turmas"
         :key="turma.nome"
-        class="linha"
+        class="linha py-2 linha-turma"
       >
         <span>{{ turma.nome }}</span>
         <span>{{ turma.turno }}</span>
@@ -69,5 +69,14 @@ h2 {
 .cabecalho {
   background: #f8fafc;
   color: #475569;
+}
+
+.linha-turma:nth-child(odd) {
+  background-color: #f1f5f9;
+}
+
+.linha-turma:hover {
+  background-color: #dbeafe;
+  cursor: default;
 }
 </style>

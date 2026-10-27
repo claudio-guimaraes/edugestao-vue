@@ -21,7 +21,7 @@ function situacao(media) {
 </script>
 
 <template>
-  <article class="card">
+  <article class="card rounded-3 shadow">
     <div class="avatar">
       {{ nome.charAt(0) }}
     </div>
@@ -55,7 +55,7 @@ function situacao(media) {
         </span>
       </div>
 
-      <button @click="emit('selecionar')">
+      <button class="btn btn-primary rounded-pill px-4" @click="emit('selecionar')">
         Consultar notas
       </button>
     </div>
@@ -70,6 +70,14 @@ function situacao(media) {
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 14px;
+}
+
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
 }
 
 .avatar {

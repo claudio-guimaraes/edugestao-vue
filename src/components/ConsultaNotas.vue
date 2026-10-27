@@ -33,14 +33,14 @@ function consultar() {
 </script>
 
 <template>
-  <div class="consulta">
+  <div class="consulta rounded-3">
     <div class="cabecalho">
       <div>
         <p class="etiqueta">BOLETIM</p>
         <h2>Consulta de notas</h2>
-      </div>
+    </div>
 
-      <button @click="consultar">
+      <button class="btn btn-primary" @click="consultar">
         Confirmar consulta
       </button>
     </div>
@@ -61,31 +61,31 @@ function consultar() {
       </div>
     </div>
 
-    <div class="media">
-  <span>Média das disciplinas</span>
-  <strong>{{ mediaNotas.toFixed(1) }}</strong>
-</div>
+    <div class="media bg-primary text-white shadow-sm">
+      <span>Média das disciplinas</span>
+      <strong>{{ mediaNotas.toFixed(1) }}</strong>
+    </div>
 
 <div class="situacao">
   <span>Situação</span>
 
   <strong
     v-if="mediaNotas >= 7"
-    class="aprovado"
+    class="badge bg-success fs-6"
   >
     {{ situacao }}
   </strong>
 
   <strong
     v-else-if="mediaNotas >= 5"
-    class="recuperacao"
+    class="badge bg-warning text-dark fs-6"
   >
     {{ situacao }}
   </strong>
 
   <strong
     v-else
-    class="reprovado"
+    class="badge bg-danger fs-6"
   >
     {{ situacao }}
   </strong>
@@ -158,11 +158,14 @@ button {
 .media {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 15px;
-  padding: 15px;
+  padding: 18px;
   border-radius: 10px;
-  background: #eff6ff;
-  color: #1e40af;
+}
+
+.media strong {
+  font-size: 24px;
 }
 
 .situacao {

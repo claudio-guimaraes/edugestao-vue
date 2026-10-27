@@ -177,7 +177,7 @@ function mostrarAviso() {
 <template>
   <Cabecalho />
 
-  <main class="container">
+  <main class="container-escolar">
     <section class="introducao">
       <div>
         <p class="etiqueta">GESTÃO ESCOLAR</p>
@@ -204,9 +204,10 @@ function mostrarAviso() {
 
         <input
           v-model="busca"
-          class="campo-busca"
-          type="text"
+          class="campo-busca form-control"
+          type="search"
           placeholder="Pesquisar aluno..."
+          aria-label="Pesquisar aluno"
         />
       </div>
 
@@ -264,7 +265,7 @@ select {
   font: inherit;
 }
 
-.container {
+.container-escolar {
   width: min(1100px, 92%);
   margin: 0 auto;
 }
@@ -320,10 +321,7 @@ h2 {
 
 .campo-busca {
   width: 260px;
-  padding: 12px 14px;
-  border: 1px solid #cbd5e1;
-  border-radius: 9px;
-  background: white;
+  max-width: 100%;
 }
 
 .grade-alunos {

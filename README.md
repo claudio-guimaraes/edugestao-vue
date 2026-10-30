@@ -17,7 +17,12 @@ Gestão Escolar: alunos, turmas e notas.
 
 ## Objetivo
 
-O objetivo do projeto é criar uma aplicação simples de gestão escolar e colocar em prática os principais conceitos de Vue.js estudados na disciplina.
+
+O objetivo do projeto é desenvolver uma aplicação simples de gestão escolar, colocando em prática os conceitos de Vue.js estudados na disciplina de Frameworks Front-End.
+
+Na primeira atividade, desenvolvemos a estrutura e as funcionalidades do EduGestão, utilizando componentes, diretivas, eventos e reatividade do Vue.js.
+
+Na segunda atividade, integramos o Bootstrap 5 para melhorar a interface, os cartões, os botões, as tabelas e a responsividade da aplicação, preservando as funcionalidades desenvolvidas anteriormente.
 
 Durante o desenvolvimento foram utilizados:
 
@@ -39,7 +44,7 @@ Durante o desenvolvimento foram utilizados:
 
 ## Componentes
 
-O projeto foi dividido nos seguintes componentes:
+Além do componente principal `App.vue`, o projeto utiliza os seguintes componentes:
 
 * `Cabecalho.vue` — mostra o cabeçalho e o nome da aplicação.
 * `Resumo.vue` — mostra a quantidade de alunos, turmas e disciplinas.
@@ -142,6 +147,83 @@ Os prompts abaixo foram utilizados pela equipe para fazer alterações, tirar d�
 
 **Uso:** fazer com que a quantidade de disciplinas mostrada no resumo seja atualizada automaticamente.
 
+## Segunda atividade — Integração do Bootstrap 5
+
+Na segunda atividade, integramos o Bootstrap 5.3.8 ao EduGestão para melhorar a apresentação visual e a responsividade da aplicação.
+
+O Bootstrap foi instalado pelo npm e importado no arquivo `src/main.js`.
+
+As principais melhorias foram:
+
+* Painel inicial: aplicação de cores diferentes nos cartões de alunos, turmas e disciplinas.
+* Lista de alunos: melhorias no espaçamento, nas bordas, nas sombras e nos botões de consulta.
+* Campo de pesquisa: utilização de classes do Bootstrap para melhorar sua apresentação.
+* Tabela de turmas: aplicação de linhas alternadas e destaque ao passar o mouse.
+* Consulta de notas: destaque visual da média e da situação acadêmica.
+* Responsividade: ajustes na organização dos elementos para computadores e celulares.
+
+As alterações foram realizadas mantendo os componentes Vue.js, as funcionalidades existentes e a reatividade da aplicação.
+
+### Prompts da segunda atividade — Integração do Bootstrap
+
+**Observação:** Os prompts apresentados a seguir foram reconstruídos com base nas alterações realizadas durante a segunda atividade, para documentar o processo de integração do Bootstrap 5.
+
+#### Prompt 1 — Instalação do Bootstrap 5
+
+> No meu projeto EduGestão, desenvolvido em Vue.js com Vite, quero integrar o Bootstrap 5 para melhorar a interface visual e a responsividade. Oriente-me a instalar o Bootstrap pelo npm e importá-lo no arquivo `src/main.js`, preservando os componentes e as funcionalidades existentes.
+
+**Uso:** instalação do Bootstrap 5.3.8 e configuração de sua utilização no projeto.
+
+
+#### Prompt 2 — Melhorias no painel inicial
+
+> No projeto EduGestão, quero utilizar classes do Bootstrap 5 para melhorar a aparência dos cartões de resumo que mostram a quantidade de alunos, turmas e disciplinas. Aplique cores diferentes para destacar cada informação, melhore os espaçamentos e mantenha a organização responsiva para computadores e celulares. Preserve o funcionamento do componente `Resumo.vue` e os dados recebidos por props.
+
+**Uso:** melhorias visuais nos cartões do painel inicial, com destaque para as cores, os espaçamentos e a responsividade.
+
+
+#### Prompt 3 — Melhorias na lista de alunos
+
+> No projeto EduGestão, quero melhorar a aparência dos cartões dos alunos utilizando classes do Bootstrap 5. Ajuste os espaçamentos, as bordas, as sombras e os botões de consulta de notas, deixando a interface mais organizada e agradável. Preserve as informações dos alunos, o cálculo das médias, a situação acadêmica e o evento de seleção do componente `AlunoCard.vue`. Mantenha também a responsividade para computadores e celulares.
+
+**Uso:** melhorias visuais nos cartões dos alunos e nos botões de consulta, preservando as funcionalidades existentes.
+
+
+#### Prompt 4 — Melhorias no campo de pesquisa
+
+> No projeto EduGestão, desenvolvido em Vue.js, quero melhorar a aparência do campo de pesquisa de alunos utilizando classes do Bootstrap 5. Ajuste as bordas, os espaçamentos e a apresentação visual do campo para que ele fique mais organizado e se adapte a computadores e celulares. Preserve o funcionamento do `v-model` e da propriedade computada que filtra os alunos pelo nome, sem alterar a lógica da pesquisa.
+
+**Uso:** melhoria visual do campo de pesquisa com Bootstrap, mantendo a filtragem reativa dos alunos.
+
+
+#### Prompt 5 — Melhorias na tabela de turmas
+
+> No projeto EduGestão, desenvolvido em Vue.js, quero melhorar a apresentação da tabela de turmas utilizando classes do Bootstrap 5. Aplique linhas alternadas, destaque visual quando o usuário passar o mouse sobre uma linha e melhore os espaçamentos e a organização da tabela. Mantenha as informações de turma, turno e quantidade de alunos, preservando o `v-for` e os dados recebidos pelo componente `ListaTurmas.vue`. A tabela também deve se adaptar a telas menores, como celulares.
+
+**Uso:** melhoria visual da tabela de turmas com Bootstrap, incluindo linhas alternadas, efeito ao passar o mouse e responsividade.
+
+
+#### Prompt 6 — Melhorias na consulta de notas
+
+> No projeto EduGestão, desenvolvido em Vue.js, quero melhorar a aparência do painel de consulta de notas utilizando classes do Bootstrap 5. Organize melhor a apresentação das disciplinas e das notas, destaque visualmente a média final e a situação acadêmica do aluno e melhore os espaçamentos e a responsividade do painel. Preserve o cálculo automático da média, as informações do aluno selecionado e os eventos existentes no componente `ConsultaNotas.vue`, sem alterar o funcionamento da aplicação.
+
+**Uso:** melhoria visual do painel de consulta de notas, com destaque para a média e a situação acadêmica, preservando os cálculos e a reatividade do Vue.js.
+
+
+#### Prompt 7 — Melhorias no cabeçalho e no rodapé
+
+> No projeto EduGestão, desenvolvido em Vue.js, quero melhorar a aparência do cabeçalho e do rodapé utilizando classes do Bootstrap 5. Ajuste os espaçamentos, o alinhamento e a apresentação visual dos elementos, mantendo a identidade do projeto. Preserve os componentes `Cabecalho.vue` e `Rodape.vue` e garanta que os elementos continuem organizados em computadores e celulares.
+
+**Uso:** melhorias visuais no cabeçalho e no rodapé, com ajustes de espaçamento, alinhamento e responsividade.
+
+
+#### Prompt 8 — Revisão da responsividade e do funcionamento
+
+> No projeto EduGestão, desenvolvido em Vue.js e atualizado com Bootstrap 5, quero revisar a responsividade da aplicação para verificar se os elementos estão organizados corretamente em computadores e celulares. Verifique o painel inicial, a lista de alunos, o campo de pesquisa, a tabela de turmas e a consulta de notas. Preserve as funcionalidades existentes, incluindo a pesquisa de alunos, a seleção de alunos, o cálculo automático das médias e a exibição da situação acadêmica. Oriente-me também a executar `npm run build` para verificar se o projeto compila sem erros.
+
+**Uso:** revisão da responsividade e das funcionalidades do projeto após a integração do Bootstrap, incluindo a verificação da compilação.
+
+
 ## Como executar
 
 É necessário ter o Node.js instalado.
@@ -161,17 +243,34 @@ Depois, abra no navegador o endereço informado pelo Vite.
 * JavaScript
 * HTML
 * CSS
+* Bootstrap 5.3.8
+* Node.js
+* npm
 * Vite
 
 ## Limites do projeto
 
 O projeto foi desenvolvido sem utilizar:
 
-* Vue Router;
-* Bootstrap;
-* Tailwind;
-* bibliotecas externas de componentes;
-* bibliotecas externas de gerenciamento de estado;
-* backend;
-* banco de dados.
+- Vue Router;
+- Tailwind CSS;
+- bibliotecas externas de componentes Vue;
+- bibliotecas externas de gerenciamento de estado;
+- backend;
+- banco de dados.
 
+O Bootstrap 5 foi utilizado como framework CSS para melhorar a interface, mantendo a aplicação como uma One Page desenvolvida em Vue.js.
+
+## Demonstração do projeto
+
+As duas versões do EduGestão podem ser acessadas pelo StackBlitz.
+
+**Primeira atividade — Vue.js sem Bootstrap:**
+
+https://stackblitz.com/github/claudio-guimaraes/edugestao-vue/tree/68b4e56
+
+**Segunda atividade — Vue.js com Bootstrap 5:**
+
+https://stackblitz.com/github/claudio-guimaraes/edugestao-vue
+
+Esses links permitem visualizar o código e executar as aplicações diretamente no navegador, facilitando a comparação entre as duas etapas do projeto.

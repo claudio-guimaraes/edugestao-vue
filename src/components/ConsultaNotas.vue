@@ -155,6 +155,14 @@ button {
   border-bottom: 1px solid #e5e7eb;
 }
 
+.nota:nth-child(even) {
+  background-color: #f1f5f9;
+}
+
+.nota:hover {
+  background-color: #dbeafe;
+}
+
 .media {
   display: flex;
   justify-content: space-between;

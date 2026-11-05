@@ -8,26 +8,41 @@ defineProps({
 
 <template>
   <section class="resumo row g-3">
-    <div class="col-md-4">
-      <div class="item bg-primary rounded-3 p-3">
-        <span class="text-white">Alunos</span>
-        <strong class="text-white">{{ totalAlunos }}</strong>
-      </div>
-    </div>
+    
+<div class="col-md-4">
+  <RouterLink
+    to="/alunos"
+    class="item bg-primary rounded-3 p-3 d-block text-decoration-none"
+  >
+    <span class="text-white">Alunos</span>
+    <strong class="text-white">{{ totalAlunos }}</strong>
+  </RouterLink>
+</div>
 
-    <div class="col-md-4">
-      <div class="item bg-success rounded-3 p-3">
-        <span class="text-white">Turmas</span>
-        <strong class="text-white">{{ totalTurmas }}</strong>
-      </div>
-    </div>
 
-    <div class="col-md-4">
-      <div class="item bg-secondary rounded-3 p-3">
-        <span class="text-white">Disciplinas</span>
-        <strong class="text-white">{{ totalDisciplinas }}</strong>
-      </div>
-    </div>
+    
+<div class="col-md-4">
+  <RouterLink
+    to="/turmas"
+    class="item bg-success rounded-3 p-3 d-block text-decoration-none"
+  >
+    <span class="text-white">Turmas</span>
+    <strong class="text-white">{{ totalTurmas }}</strong>
+  </RouterLink>
+</div>
+
+
+    
+<div class="col-md-4">
+  <RouterLink
+    to="/notas"
+    class="item bg-secondary rounded-3 p-3 d-block text-decoration-none"
+  >
+    <span class="text-white">Disciplinas</span>
+    <strong class="text-white">{{ totalDisciplinas }}</strong>
+  </RouterLink>
+</div>
+
   </section>
 </template>
 

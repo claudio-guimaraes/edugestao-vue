@@ -1,11 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { RouterView } from 'vue-router'
 
 import Cabecalho from './components/Cabecalho.vue'
-import Resumo from './components/Resumo.vue'
-import AlunoCard from './components/AlunoCard.vue'
-import ListaTurmas from './components/ListaTurmas.vue'
-import ConsultaNotas from './components/ConsultaNotas.vue'
 import Rodape from './components/Rodape.vue'
 
 const alunos = ref([
@@ -174,78 +171,31 @@ function mostrarAviso() {
 }
 </script>
 
+
 <template>
   <Cabecalho />
 
-  <main class="container-escolar">
-    <section class="introducao">
-      <div>
-        <p class="etiqueta">GESTÃO ESCOLAR</p>
-        <h1>Alunos, turmas e notas em um só lugar.</h1>
-        <p class="descricao">
-          Uma demonstração de uma aplicação escolar desenvolvida com Vue.js
-          utilizando componentes, props, diretivas, eventos e reatividade.
-        </p>
-      </div>
-    </section>
-
-    <Resumo
+  <RouterView v-slot="{ Component }">
+    <component
+      :is="Component"
+      :turmas="turmasComQuantidade"
+      :alunos="alunosFiltrados"
+      :calcular-media="calcularMedia"
+      v-model:busca="busca"
+      :aluno="alunoSelecionado"
+      :mostrar-mensagem="mostrarMensagem"
       :total-alunos="alunos.length"
       :total-turmas="turmas.length"
       :total-disciplinas="totalDisciplinas"
+      @selecionar-aluno="selecionarAluno"
+      @aluno-alterado="atualizarAluno"
+      @mostrar-aviso="mostrarAviso"
     />
-
-    <section class="secao">
-      <div class="titulo-secao">
-        <div>
-          <p class="etiqueta">ALUNOS</p>
-          <h2>Lista de alunos</h2>
-        </div>
-
-        <input
-          v-model="busca"
-          class="campo-busca form-control"
-          type="search"
-          placeholder="Pesquisar aluno..."
-          aria-label="Pesquisar aluno"
-        />
-      </div>
-
-      <div class="grade-alunos">
-        <AlunoCard
-          v-for="aluno in alunosFiltrados"
-          :key="aluno.id"
-          :nome="aluno.nome"
-          :turma="aluno.turma"
-          :media="calcularMedia(aluno.notas)"
-          @selecionar="selecionarAluno(aluno)"
-        />
-      </div>
-
-      <p v-if="alunosFiltrados.length === 0" class="vazio">
-        Nenhum aluno encontrado.
-      </p>
-    </section>
-
-    <section class="secao">
-      <ListaTurmas :turmas="turmasComQuantidade" />
-    </section>
-
-    <section class="secao">
-      <ConsultaNotas
-        :aluno="alunoSelecionado"
-        @aluno-alterado="atualizarAluno"
-        @mostrar-aviso="mostrarAviso"
-      />
-
-      <p v-show="mostrarMensagem" class="mensagem-sucesso">
-        Consulta realizada com sucesso para {{ alunoSelecionado.nome }}.
-      </p>
-    </section>
-  </main>
+  </RouterView>
 
   <Rodape />
 </template>
+
 
 <style>
 * {

@@ -1,18 +1,32 @@
+
 <template>
   <header class="cabecalho">
     <div class="cabecalho-conteudo container d-flex justify-content-between align-items-center">
-      <div class="logo">
-        <span class="icone">E</span>
-        <div>
-          <strong>EduGestão</strong>
-          <small>Gestão Escolar</small>
-        </div>
-      </div>
+      
+<RouterLink to="/" class="logo text-decoration-none text-white">
+  <span class="icone">E</span>
+  <div>
+    <strong>EduGestão</strong>
+    <small>Gestão Escolar</small>
+  </div>
+</RouterLink>
 
-      <span class="status badge bg-warning text-dark">Painel escolar</span>
+
+      <nav class="menu">
+        <RouterLink to="/">Início</RouterLink>
+        <RouterLink to="/alunos">Alunos</RouterLink>
+        <RouterLink to="/turmas">Turmas</RouterLink>
+        <RouterLink to="/notas">Notas</RouterLink>
+      </nav>
+      
+      <span class="status badge bg-warning text-dark">
+      Sistema de Gestão Escolar
+      </span>
+
     </div>
   </header>
 </template>
+
 
 <style scoped>
 .cabecalho {
@@ -58,9 +72,48 @@
 }
 
 .status {
-  padding: 7px 11px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 20px;
-  font-size: 13px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: default;
 }
+
+.menu {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.menu a:hover {
+  text-decoration: underline;
+}
+
+.menu a.router-link-exact-active {
+  color: #facc15;
+  font-weight: bold;
+}
+
+@media (max-width: 700px) {
+  .cabecalho-conteudo {
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 15px 0;
+  }
+
+  .menu {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 15px;
+  }
+}
+
 </style>

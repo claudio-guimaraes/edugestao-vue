@@ -143,12 +143,14 @@ const turmasComQuantidade = computed(() => {
 })
 
 const totalDisciplinas = computed(() => {
-  return alunos.value[0].notas.length
+  return alunos.value[0]?.notas?.length ?? 0
 })
 
 const busca = ref('')
 const alunoSelecionado = ref(alunos.value[0])
 const mostrarMensagem = ref(false)
+const carregandoAlunos = ref(false)
+const erroAlunos = ref('')
 const nomeNovoAluno = ref('')
 const alunoEmEdicao = ref(null)
 const nomeAlunoEdicao = ref('')
@@ -323,6 +325,9 @@ function mostrarAviso() {
 }
 
 onMounted(async () => {
+  carregandoAlunos.value = true
+  erroAlunos.value = ''
+
   try {
     const alunosDaAPI = await buscarAlunos()
 
@@ -349,11 +354,13 @@ if (alunos.value.length > 0) {
 }
 
   } catch (erro) {
-    console.error('Erro ao consultar o MockAPI:', erro)
-  }
+  console.error('Erro ao consultar o MockAPI:', erro)
+  erroAlunos.value = 'Não foi possível carregar os alunos. Tente novamente.'
+} finally {
+  carregandoAlunos.value = false
+}
 })
 </script>
-
 
 <template>
   <Cabecalho />
@@ -363,6 +370,8 @@ if (alunos.value.length > 0) {
       :is="Component"
       :turmas="turmasComQuantidade"
       :alunos="alunosFiltrados"
+      :carregando-alunos="carregandoAlunos"
+      :erro-alunos="erroAlunos"
       :calcular-media="calcularMedia"
       v-model:busca="busca"
       :aluno="alunoSelecionado"

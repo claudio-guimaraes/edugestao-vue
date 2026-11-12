@@ -7,6 +7,14 @@ defineProps({
     type: Array,
     required: true
   },
+  carregandoAlunos: {
+    type: Boolean,
+    default: false
+  },
+  erroAlunos: {
+    type: String,
+    default: ''
+  },
   calcularMedia: {
     type: Function,
     required: true
@@ -173,8 +181,18 @@ const turmaAlunoEdicao = defineModel('turmaAlunoEdicao', {
         />
         </div>
 
+      <p v-if="carregandoAlunos" class="alert alert-info">
+        Carregando alunos...
+      </p>
 
-      <div class="grade-alunos">
+      <p v-if="erroAlunos" class="alert alert-danger">
+        {{ erroAlunos }}
+      </p>
+        
+      <div
+        v-if="!carregandoAlunos && !erroAlunos"
+        class="grade-alunos"
+      >
         <AlunoCard
           v-for="aluno in alunos"
           :key="aluno.id"
@@ -189,9 +207,12 @@ const turmaAlunoEdicao = defineModel('turmaAlunoEdicao', {
       
       </div>
 
-      <p v-if="alunos.length === 0" class="vazio">
-        Nenhum aluno encontrado.
-      </p>
+    <p
+      v-if="!carregandoAlunos && !erroAlunos && alunos.length === 0"
+      class="vazio"
+    >
+      Nenhum aluno encontrado.
+    </p>
     </section>
   </main>
 </template>

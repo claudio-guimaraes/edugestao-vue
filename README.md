@@ -500,6 +500,6 @@ https://github.com/claudio-guimaraes/edugestao-vue/tree/estudo-vue-router
 
 **Quarta atividade — Vue.js com Bootstrap 5, Vue Router 4 e CRUD integrado ao MockAPI:**
 
-*Link da versão atual no GitHub a ser acrescentado após a publicação.*
+https://github.com/claudio-guimaraes/edugestao-vue/tree/integracao-backend
 
 A primeira versão apresenta as funcionalidades básicas do Vue.js. A segunda incorpora o Bootstrap 5 para melhorar a interface e a responsividade. A terceira acrescenta o Vue Router 4, permitindo navegar entre quatro páginas sem recarregar completamente a aplicação. A quarta integra o MockAPI e implementa as operações CRUD, permitindo cadastrar, consultar, editar e excluir alunos, com persistência dos dados.

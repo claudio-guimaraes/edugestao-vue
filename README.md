@@ -365,6 +365,14 @@ As operações foram implementadas utilizando a Fetch API do JavaScript e os seg
 - **PUT (Update):** permite editar as informações de um aluno já cadastrado.
 - **DELETE (Delete):** permite excluir um aluno cadastrado, mediante confirmação do usuário.
 
+### Endpoint da API
+
+O EduGestão utiliza o seguinte endpoint do MockAPI para realizar as operações CRUD de alunos:
+
+`https://6af11b4211a6aa866e7fec10.mockapi.io/api/v1/alunos`
+
+As requisições são realizadas por meio da Fetch API do JavaScript, utilizando os métodos HTTP GET, POST, PUT e DELETE.
+  
 ### Organização do código
 
 Criamos o arquivo `src/services/alunosService.js` para organizar as funções responsáveis pela comunicação com o MockAPI.
@@ -379,11 +387,39 @@ Diferentemente da versão inicial do projeto, os dados cadastrais dos alunos pas
 
 Assim, os cadastros, as edições e as exclusões permanecem registrados mesmo depois que o usuário atualiza a página do navegador.
 
+### Tratamento de carregamento, erros e resultados vazios
+
+O EduGestão utiliza variáveis reativas do Vue.js para controlar o carregamento dos alunos e identificar possíveis falhas na comunicação com o MockAPI.
+
+Durante a consulta à API, a aplicação apresenta a mensagem "Carregando alunos..." e oculta temporariamente os cartões dos estudantes.
+
+Caso a requisição apresente uma falha, o sistema exibe a mensagem "Não foi possível carregar os alunos. Tente novamente.", utilizando uma classe de alerta do Bootstrap 5.
+
+Quando a pesquisa não encontra nenhum estudante, a aplicação apresenta a mensagem "Nenhum aluno encontrado."
+
+Essas situações são controladas por meio de `ref()`, `v-if` e tratamento de exceções com `try`, `catch` e `finally`.
+  
 ### Testes realizados
 
 Foram realizados testes das quatro operações CRUD, verificando o funcionamento dos formulários, a atualização dos cartões e a persistência das informações no MockAPI.
 
 Os testes confirmaram o funcionamento do cadastro, da consulta, da edição e da exclusão de alunos.
+
+Também foram realizados testes para verificar o tratamento de
+carregamento, erros e resultados vazios.
+
+- Carregamento: foi confirmada a exibição da mensagem
+  "Carregando alunos..." durante a consulta ao MockAPI.
+
+- Erro de comunicação: foi utilizado o Chrome DevTools para
+  bloquear a requisição ao MockAPI e verificar a exibição
+  da mensagem de erro.
+
+- Resultados vazios: foi realizada uma pesquisa por um nome
+  inexistente, confirmando a mensagem "Nenhum aluno encontrado."
+
+- Compilação: foi executado o comando `npm run build`,
+  concluído sem erros pelo Vite.
 
 ### Limitação atual
 
@@ -437,6 +473,12 @@ Os prompts apresentados a seguir foram reconstruídos com base nas alterações 
 
 **Uso:** verificação do funcionamento das operações HTTP e da persistência dos dados no MockAPI.
 
+#### Prompt 8 — Tratamento de carregamento e erros da API
+
+> No projeto EduGestão, desenvolvido com Vue.js e integrado ao MockAPI, quero implementar mensagens para informar ao usuário quando os alunos estiverem sendo carregados, quando ocorrer uma falha de comunicação com a API e quando a pesquisa não encontrar resultados. Utilize `ref()`, `v-if`, `try`, `catch` e `finally`, preservando as funcionalidades existentes. Oriente-me a realizar as alterações passo a passo e a testar os resultados no navegador.
+
+**Uso:** implementação dos estados de carregamento e erro, controle da exibição dos cartões e verificação do funcionamento utilizando o Chrome DevTools.
+  
 ## Como executar
 
 É necessário ter o Node.js instalado.

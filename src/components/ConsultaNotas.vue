@@ -11,11 +11,22 @@ const props = defineProps({
 const emit = defineEmits(['alunoAlterado', 'mostrarAviso'])
 
 const mediaNotas = computed(() => {
-  const total = props.aluno.notas.reduce((soma, item) => soma + item.nota, 0)
+  if (props.aluno.notas.length === 0) {
+    return 0
+  }
+
+  const total = props.aluno.notas.reduce(
+    (soma, item) => soma + item.nota, 0
+  )
+
   return total / props.aluno.notas.length
 })
 
 const situacao = computed(() => {
+  if (props.aluno.notas.length === 0) {
+    return 'Sem notas'
+  }
+
   if (mediaNotas.value >= 7) {
     return 'Aprovado'
   }
@@ -61,16 +72,30 @@ function consultar() {
       </div>
     </div>
 
-    <div class="media bg-primary text-white shadow-sm">
-      <span>Média das disciplinas</span>
-      <strong>{{ mediaNotas.toFixed(1) }}</strong>
-    </div>
+<div class="media bg-primary text-white shadow-sm">
+  <span>Média das disciplinas</span>
+
+  <strong v-if="aluno.notas.length > 0">
+    {{ mediaNotas.toFixed(1) }}
+  </strong>
+
+  <strong v-else>
+    Sem notas
+  </strong>
+</div>
 
 <div class="situacao">
   <span>Situação</span>
 
   <strong
-    v-if="mediaNotas >= 7"
+    v-if="aluno.notas.length === 0"
+    class="badge bg-secondary fs-6"
+  >
+    Sem notas
+  </strong>
+
+  <strong
+    v-else-if="mediaNotas >= 7"
     class="badge bg-success fs-6"
   >
     {{ situacao }}

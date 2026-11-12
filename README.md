@@ -2,11 +2,12 @@
 
 Aplicação de Gestão Escolar desenvolvida em Vue.js para o Projeto Prático da disciplina de Frameworks Front-End, do curso de Análise e Desenvolvimento de Sistemas (ADS) da UNAMA – Universidade da Amazônia.
 
-O projeto foi desenvolvido em três etapas:
+O projeto foi desenvolvido em quatro etapas:
 
 - **Primeira etapa:** criação da aplicação One Page com componentes, props, diretivas, eventos e reatividade do Vue.js.
 - **Segunda etapa:** implementação do Bootstrap 5 para melhorar a aparência, a organização visual e a responsividade.
 - **Terceira etapa:** implementação do Vue Router 4, organizando a aplicação em quatro páginas: Início, Alunos, Turmas e Notas, com navegação sem recarregamento completo.
+- **Quarta etapa:** integração com o MockAPI e implementação das operações CRUD (Create, Read, Update e Delete), permitindo cadastrar, consultar, editar e excluir alunos, com persistência dos dados por meio de requisições HTTP.
 
 O EduGestão continua sendo uma SPA (Single Page Application), agora com navegação entre diferentes rotas.
 
@@ -56,7 +57,7 @@ Além do componente principal `App.vue`, o projeto utiliza os seguintes componen
 
 * `Cabecalho.vue` — mostra o cabeçalho e o nome da aplicação.
 * `Resumo.vue` — mostra a quantidade de alunos, turmas e disciplinas.
-* `AlunoCard.vue` — mostra os dados de cada aluno, sua média e sua situação.
+* `AlunoCard.vue` — mostra os dados de cada aluno, sua média e sua situação, além de disponibilizar botões para consultar notas, editar e excluir alunos.
 * `ListaTurmas.vue` — mostra as turmas cadastradas e a quantidade de alunos em cada uma.
 * `ConsultaNotas.vue` — mostra as notas do aluno selecionado e calcula sua média.
 * `Rodape.vue` — mostra as informações do rodapé da aplicação.
@@ -337,6 +338,105 @@ Os prompts desta etapa documentam as alterações realizadas para implementar a 
 
 **Uso:** implementação de linhas alternadas e destaque ao passar o mouse na consulta de notas, utilizando as propriedades CSS `:nth-child(even)` e `:hover`.
 
+#### Prompt 10 — Navegação automática para a página Notas
+
+> No projeto Vue.js EduGestão, modifique a função selecionarAluno() do App.vue para que, ao clicar no botão Consultar Aluno, o sistema selecione o estudante e navegue automaticamente para a rota /notas utilizando o Vue Router. Preserve as funcionalidades existentes, incluindo a seleção do aluno e a consulta de suas notas.
+
+**Uso:** implementação da navegação automática para a página Notas por meio de useRouter() e router.push('/notas'), exibindo o boletim do aluno selecionado.
+
+#### Prompt 11 — Limpeza automática da pesquisa de alunos
+
+> No projeto Vue.js EduGestão, utilize watch() do Vue.js para observar as mudanças de rota no App.vue. Sempre que o usuário retornar à página /alunos vindo de outra rota, limpe automaticamente o campo de pesquisa, exibindo novamente todos os alunos cadastrados. Preserve o funcionamento da consulta de notas e da seleção de alunos.
+
+**Uso:** implementação da limpeza automática do campo de pesquisa ao retornar à página Alunos, utilizando watch() e a variável reativa busca.
+
+## Quarta etapa — Integração com MockAPI e CRUD de alunos
+
+Na quarta etapa do projeto, integramos o EduGestão ao MockAPI, um serviço que permite simular uma API REST e armazenar dados para testes e desenvolvimento.
+
+Essa integração possibilitou implementar as quatro operações básicas de um CRUD (Create, Read, Update e Delete), permitindo cadastrar, consultar, editar e excluir alunos.
+
+### Operações CRUD
+
+As operações foram implementadas utilizando a Fetch API do JavaScript e os seguintes métodos HTTP:
+
+- **GET (Read):** consulta os alunos cadastrados no MockAPI e apresenta os dados na aplicação.
+- **POST (Create):** permite cadastrar novos alunos, enviando seus dados ao MockAPI.
+- **PUT (Update):** permite editar as informações de um aluno já cadastrado.
+- **DELETE (Delete):** permite excluir um aluno cadastrado, mediante confirmação do usuário.
+
+### Organização do código
+
+Criamos o arquivo `src/services/alunosService.js` para organizar as funções responsáveis pela comunicação com o MockAPI.
+
+O componente `App.vue` utiliza essas funções para realizar as operações e atualizar os dados exibidos na aplicação.
+
+A página `AlunosView.vue` apresenta os formulários de cadastro e edição, enquanto o componente `AlunoCard.vue` disponibiliza os botões para consultar notas, editar e excluir alunos.
+
+### Persistência dos dados
+
+Diferentemente da versão inicial do projeto, os dados cadastrais dos alunos passaram a ser armazenados no MockAPI.
+
+Assim, os cadastros, as edições e as exclusões permanecem registrados mesmo depois que o usuário atualiza a página do navegador.
+
+### Testes realizados
+
+Foram realizados testes das quatro operações CRUD, verificando o funcionamento dos formulários, a atualização dos cartões e a persistência das informações no MockAPI.
+
+Os testes confirmaram o funcionamento do cadastro, da consulta, da edição e da exclusão de alunos.
+
+### Limitação atual
+
+O CRUD foi implementado para os dados cadastrais dos alunos.
+
+A aplicação continua permitindo consultar notas, calcular médias e apresentar a situação acadêmica dos estudantes, mas ainda não possui funcionalidades para cadastrar, editar ou excluir notas diretamente pelo sistema.
+
+### Prompts da quarta etapa — Integração com MockAPI e CRUD
+
+Os prompts apresentados a seguir foram reconstruídos com base nas alterações realizadas durante a quarta etapa, para documentar o processo de integração com o MockAPI e implementação do CRUD de alunos.
+
+#### Prompt 1 — Integração com o MockAPI
+
+> No projeto EduGestão, desenvolvido com Vue.js, Vue Router e Bootstrap 5, quero integrar uma API REST simulada utilizando o MockAPI. Oriente-me a configurar o serviço e conectar a aplicação à API, preservando as funcionalidades já implementadas.
+
+**Uso:** configuração do MockAPI e preparação da aplicação para consumir dados externos.
+
+#### Prompt 2 — Criação do serviço de alunos
+
+> No EduGestão, quero criar o arquivo `src/services/alunosService.js` para organizar as funções responsáveis pela comunicação com o MockAPI. Utilize a Fetch API do JavaScript e mantenha o código simples, adequado aos conceitos estudados na disciplina.
+
+**Uso:** organização das requisições HTTP em um arquivo de serviço.
+
+#### Prompt 3 — Consulta de alunos com GET
+
+> No EduGestão, implemente a consulta dos alunos cadastrados no MockAPI utilizando o método HTTP GET. Os dados recebidos devem ser apresentados na página Alunos, preservando a pesquisa por nome e a reatividade do Vue.js.
+
+**Uso:** carregamento dos alunos cadastrados na API.
+
+#### Prompt 4 — Cadastro de alunos com POST
+
+> No EduGestão, implemente um formulário para cadastrar novos alunos, permitindo informar o nome e selecionar uma turma. Utilize o método HTTP POST para enviar os dados ao MockAPI e atualize automaticamente a lista de alunos após o cadastro.
+
+**Uso:** implementação do cadastro de alunos e integração com a API.
+
+#### Prompt 5 — Edição de alunos com PUT
+
+> No EduGestão, acrescente um botão Editar aos cartões dos alunos. Ao clicar nesse botão, o usuário deverá visualizar um formulário com os dados atuais do estudante, podendo alterar seu nome e sua turma. Utilize o método HTTP PUT para salvar as alterações no MockAPI e atualize a interface após a edição.
+
+**Uso:** implementação da edição de alunos e atualização dos registros no MockAPI.
+
+#### Prompt 6 — Exclusão de alunos com DELETE
+
+> No EduGestão, acrescente um botão Excluir aos cartões dos alunos. Antes de realizar a exclusão, apresente uma janela de confirmação. Se o usuário confirmar, utilize o método HTTP DELETE para remover o registro do MockAPI e atualize automaticamente a lista de alunos, sem precisar recarregar a página.
+
+**Uso:** implementação da exclusão de alunos, confirmação da operação e atualização reativa da interface.
+
+#### Prompt 7 — Testes das operações CRUD
+
+> No projeto EduGestão, quero testar as quatro operações CRUD implementadas com o MockAPI. Oriente-me a verificar o cadastro, a consulta, a edição e a exclusão de alunos, incluindo testes de persistência após atualizar a página do navegador.
+
+**Uso:** verificação do funcionamento das operações HTTP e da persistência dos dados no MockAPI.
+
 ## Como executar
 
 É necessário ter o Node.js instalado.
@@ -350,39 +450,41 @@ npm run dev
 
 Depois, abra no navegador o endereço informado pelo Vite.
 
-
 ## Tecnologias utilizadas
 
-- Vue.js
+- Vue.js 3
 - Vue Router 4
 - Bootstrap 5
 - JavaScript
 - HTML
 - CSS
 - Vite
-
+- MockAPI — serviço de API REST simulada para armazenamento dos dados cadastrais dos alunos.
+- Fetch API — recurso nativo do JavaScript utilizado para realizar requisições HTTP (GET, POST, PUT e DELETE).
 
 ## Limites do projeto
 
-O projeto foi desenvolvido sem utilizar:
+O EduGestão foi desenvolvido como uma aplicação acadêmica para praticar os conceitos de Vue.js e desenvolvimento Front-End.
+
+O projeto não utiliza:
 
 - Tailwind CSS;
 - bibliotecas externas de componentes Vue;
 - bibliotecas externas de gerenciamento de estado;
-- backend;
-- banco de dados.
+- backend próprio desenvolvido pela equipe;
+- banco de dados próprio configurado pela equipe.
 
+Na quarta etapa, integramos o MockAPI, um serviço externo que simula uma API REST e permite armazenar os dados cadastrais dos alunos.
 
-O Bootstrap 5 foi utilizado como framework CSS para melhorar a interface e a responsividade da aplicação.
+Dessa forma, o EduGestão passou a realizar operações de cadastro, consulta, edição e exclusão de alunos por meio de requisições HTTP.
 
-Na terceira etapa, implementamos o Vue Router 4 para organizar o EduGestão em quatro páginas: Início, Alunos, Turmas e Notas.
+A aplicação também permite consultar notas, calcular médias e apresentar a situação acadêmica dos estudantes. Entretanto, o cadastro, a edição e a exclusão de notas ainda não foram implementados.
 
-A aplicação continua sendo uma SPA (Single Page Application), pois a navegação entre as páginas acontece sem recarregar completamente o navegador.
-
+O Bootstrap 5 é utilizado para melhorar a interface e a responsividade, enquanto o Vue Router 4 permite navegar entre as quatro páginas da aplicação sem recarregar completamente o navegador.
 
 ## Demonstração do projeto
 
-O EduGestão foi desenvolvido em três etapas, permitindo acompanhar a evolução da aplicação.
+O EduGestão foi desenvolvido em quatro etapas, permitindo acompanhar a evolução da aplicação desde os primeiros componentes Vue.js até a integração com uma API REST simulada.
 
 **Primeira atividade — Vue.js sem Bootstrap:**
 
@@ -396,4 +498,8 @@ https://stackblitz.com/github/claudio-guimaraes/edugestao-vue/tree/estudo-bootst
 
 https://github.com/claudio-guimaraes/edugestao-vue/tree/estudo-vue-router
 
-A primeira versão apresenta as funcionalidades básicas do Vue.js. A segunda incorpora o Bootstrap 5 para melhorar a interface e a responsividade. A terceira acrescenta o Vue Router 4, permitindo navegar entre quatro páginas sem recarregar completamente a aplicação.
+**Quarta atividade — Vue.js com Bootstrap 5, Vue Router 4 e CRUD integrado ao MockAPI:**
+
+*Link da versão atual no GitHub a ser acrescentado após a publicação.*
+
+A primeira versão apresenta as funcionalidades básicas do Vue.js. A segunda incorpora o Bootstrap 5 para melhorar a interface e a responsividade. A terceira acrescenta o Vue Router 4, permitindo navegar entre quatro páginas sem recarregar completamente a aplicação. A quarta integra o MockAPI e implementa as operações CRUD, permitindo cadastrar, consultar, editar e excluir alunos, com persistência dos dados.

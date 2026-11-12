@@ -1,9 +1,19 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { RouterView } from 'vue-router'
+import {
+  buscarAlunos,
+  cadastrarAluno,
+  atualizarAluno,
+  excluirAluno
+} from './services/alunosService'
 
 import Cabecalho from './components/Cabecalho.vue'
 import Rodape from './components/Rodape.vue'
+
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const alunos = ref([
   {
@@ -139,6 +149,32 @@ const totalDisciplinas = computed(() => {
 const busca = ref('')
 const alunoSelecionado = ref(alunos.value[0])
 const mostrarMensagem = ref(false)
+const nomeNovoAluno = ref('')
+const alunoEmEdicao = ref(null)
+const nomeAlunoEdicao = ref('')
+const turmaAlunoEdicao = ref('')
+const turmaNovoAluno = ref('')
+
+const turnoNovoAluno = computed(() => {
+  const turmaEncontrada = turmas.value.find(
+    turma => turma.nome === turmaNovoAluno.value
+  )
+
+  return turmaEncontrada?.turno ?? ''
+})
+
+watch(
+  () => router.currentRoute.value.path,
+  (novaRota, rotaAnterior) => {
+    if (novaRota === '/alunos' && rotaAnterior !== '/alunos') {
+      busca.value = ''
+    }
+
+    if (novaRota !== '/alunos') {
+      alunoEmEdicao.value = null
+    }
+  }
+)
 
 const alunosFiltrados = computed(() => {
   const termo = busca.value.toLowerCase().trim()
@@ -151,7 +187,12 @@ const alunosFiltrados = computed(() => {
     aluno.nome.toLowerCase().includes(termo)
   )
 })
+
 function calcularMedia(notas) {
+  if (!notas || notas.length === 0) {
+    return 0
+  }
+
   const soma = notas.reduce((total, item) => total + item.nota, 0)
   return soma / notas.length
 }
@@ -159,9 +200,120 @@ function calcularMedia(notas) {
 function selecionarAluno(aluno) {
   alunoSelecionado.value = aluno
   mostrarMensagem.value = false
+  router.push('/notas')
 }
 
-function atualizarAluno(aluno) {
+async function salvarNovoAluno() {
+  const nome = nomeNovoAluno.value.trim()
+  const turma = turmaNovoAluno.value
+
+  if (!nome || !turma) {
+    alert('Preencha o nome e selecione uma turma.')
+    return
+  }
+
+  const novoAluno = {
+    name: nome,
+    turma: turma,
+    turno: turnoNovoAluno.value
+  }
+  
+try {
+  const alunoCadastrado = await cadastrarAluno(novoAluno)
+
+  const alunoAdaptado = {
+    id: Number(alunoCadastrado.id),
+    nome: alunoCadastrado.name,
+    turma: alunoCadastrado.turma,
+    turno: alunoCadastrado.turno,
+    notas: []
+  }
+
+  alunos.value.push(alunoAdaptado)
+  
+  nomeNovoAluno.value = ''
+  turmaNovoAluno.value = ''
+
+  console.log('Aluno cadastrado no MockAPI:', alunoAdaptado)
+} catch (erro) {
+  console.error('Erro ao cadastrar aluno:', erro)
+}
+}
+
+function prepararEdicaoAluno(aluno) {
+  alunoEmEdicao.value = aluno
+  nomeAlunoEdicao.value = aluno.nome
+  turmaAlunoEdicao.value = aluno.turma
+
+  console.log('Aluno em edição:', alunoEmEdicao.value)
+}
+
+async function confirmarExclusaoAluno(aluno) {
+  const confirmado = window.confirm(
+    `Tem certeza de que deseja excluir o aluno ${aluno.nome}?`
+  )
+
+  if (!confirmado) {
+    return
+  }
+
+  try {
+    await excluirAluno(aluno.id)
+
+    console.log('Aluno excluído do MockAPI:', aluno.nome)
+    
+    alunos.value = alunos.value.filter(
+      estudante => estudante.id !== aluno.id
+)
+
+  } catch (erro) {
+    console.error('Erro ao excluir aluno:', erro)
+  }
+}
+
+async function salvarEdicaoAluno() {
+  if (!alunoEmEdicao.value) {
+    return
+  }
+
+const turmaEncontrada = turmas.value.find(
+  turma => turma.nome === turmaAlunoEdicao.value
+)
+  
+const dadosAtualizados = {
+  name: nomeAlunoEdicao.value.trim(),
+  turma: turmaAlunoEdicao.value,
+  turno: turmaEncontrada?.turno ?? ''
+}
+
+  console.log('Dados preparados para atualização:', dadosAtualizados)
+
+  try {
+    const alunoAtualizado = await atualizarAluno(
+      alunoEmEdicao.value.id,
+      dadosAtualizados
+    )
+
+    console.log('Resposta do MockAPI:', alunoAtualizado)
+
+    const alunoLocal = alunos.value.find(
+      aluno => aluno.id === Number(alunoAtualizado.id)
+    )
+
+    if (alunoLocal) {
+      alunoLocal.nome = alunoAtualizado.name
+      alunoLocal.turma = alunoAtualizado.turma
+      alunoLocal.turno = alunoAtualizado.turno
+    }
+
+    alunoEmEdicao.value = null
+
+  } catch (erro) {
+    console.error('Erro ao atualizar aluno:', erro)
+  }
+}
+
+function atualizarAlunoSelecionado(aluno) {
   alunoSelecionado.value = aluno
   mostrarMensagem.value = false
 }
@@ -169,6 +321,37 @@ function atualizarAluno(aluno) {
 function mostrarAviso() {
   mostrarMensagem.value = true
 }
+
+onMounted(async () => {
+  try {
+    const alunosDaAPI = await buscarAlunos()
+
+    const alunosAdaptados = alunosDaAPI.map(alunoAPI => {
+      const alunoLocal = alunos.value.find(
+        aluno => String(aluno.id) === String(alunoAPI.id)
+      )
+
+      return {
+        id: Number(alunoAPI.id),
+        nome: alunoAPI.name,
+        turma: alunoAPI.turma,
+        turno: alunoAPI.turno,
+        notas: alunoLocal?.notas ?? []
+      }
+    })
+
+    console.log('Alunos adaptados:', alunosAdaptados)
+
+alunos.value = alunosAdaptados
+
+if (alunos.value.length > 0) {
+  alunoSelecionado.value = alunos.value[0]
+}
+
+  } catch (erro) {
+    console.error('Erro ao consultar o MockAPI:', erro)
+  }
+})
 </script>
 
 
@@ -187,9 +370,18 @@ function mostrarAviso() {
       :total-alunos="alunos.length"
       :total-turmas="turmas.length"
       :total-disciplinas="totalDisciplinas"
-      @selecionar-aluno="selecionarAluno"
-      @aluno-alterado="atualizarAluno"
+      :aluno-em-edicao="alunoEmEdicao"
+      @selecionar-aluno="selecionarAluno"      
+      @aluno-alterado="atualizarAlunoSelecionado"
       @mostrar-aviso="mostrarAviso"
+      v-model:nomeNovoAluno="nomeNovoAluno"
+      v-model:turmaNovoAluno="turmaNovoAluno"
+      v-model:nomeAlunoEdicao="nomeAlunoEdicao"
+      v-model:turmaAlunoEdicao="turmaAlunoEdicao"
+      @cadastrarAluno="salvarNovoAluno"
+      @editar-aluno="prepararEdicaoAluno"
+      @salvar-edicao-aluno="salvarEdicaoAluno"
+      @excluir-aluno="confirmarExclusaoAluno"
     />
   </RouterView>
 

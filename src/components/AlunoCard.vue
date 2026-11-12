@@ -1,11 +1,13 @@
 <script setup>
+
 defineProps({
   nome: String,
   turma: String,
-  media: Number
+  media: Number,
+  possuiNotas: Boolean
 })
 
-const emit = defineEmits(['selecionar'])
+const emit = defineEmits(['selecionar', 'editar', 'excluir'])
 
 function situacao(media) {
   if (media >= 7) {
@@ -31,10 +33,24 @@ function situacao(media) {
       <p>Turma: {{ turma }}</p>
 
       <div class="rodape-card">
-        <span>Média: <strong>{{ media.toFixed(1) }}</strong></span>
+        
+<span v-if="possuiNotas">
+  Média: <strong>{{ media.toFixed(1) }}</strong>
+</span>
+
+<span v-else>
+  Média: <strong>Sem notas</strong>
+</span>
 
         <span
-          v-if="media >= 7"
+          v-if="!possuiNotas"
+          class="situacao"
+        >
+          Sem notas
+        </span>
+
+        <span
+          v-else-if="media >= 7"
           class="situacao aprovado"
         >
           {{ situacao(media) }}
@@ -58,6 +74,21 @@ function situacao(media) {
       <button class="btn btn-primary rounded-pill px-4" @click="emit('selecionar')">
         Consultar notas
       </button>
+
+      <button
+        class="btn btn-outline-primary rounded-pill px-4 ms-2"
+        @click="emit('editar')"
+      >
+        Editar
+      </button>
+
+      <button
+        class="btn btn-outline-danger rounded-pill px-4 ms-2"
+        @click="emit('excluir')"
+      >
+        Excluir
+      </button>
+
     </div>
   </article>
 </template>

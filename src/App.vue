@@ -10,6 +10,12 @@ import {
 
 import Cabecalho from './components/Cabecalho.vue'
 import Rodape from './components/Rodape.vue'
+import {
+  buscarNotas,
+  cadastrarNota,
+  atualizarNota,
+  excluirNota
+} from './services/notasService'
 
 import { useRouter } from 'vue-router'
 
@@ -324,7 +330,41 @@ function mostrarAviso() {
   mostrarMensagem.value = true
 }
 
+async function testarAtualizacaoNota() {
+  try {
+    const notaAtualizada = await atualizarNota(1, {
+      alunoId: 1,
+      disciplina: 'Matemática',
+      nota: 9.0
+    })
+
+    console.log('Nota atualizada no MockAPI:', notaAtualizada)
+  } catch (erro) {
+    console.error('Erro ao atualizar nota:', erro)
+  }
+}
+
+async function testarExclusaoNota() {
+  try {
+    const notaExcluida = await excluirNota(2)
+
+    console.log('Nota excluída do MockAPI:', notaExcluida)
+  } catch (erro) {
+    console.error('Erro ao excluir nota:', erro)
+  }
+}
+
 onMounted(async () => {
+
+  try {
+    const notasDaAPI = await buscarNotas()
+
+    console.log('Notas recebidas do MockAPI:', notasDaAPI)
+
+  } catch (erro) {
+    console.error('Erro ao testar cadastro de nota:', erro)
+  }
+
   carregandoAlunos.value = true
   erroAlunos.value = ''
 
@@ -344,7 +384,7 @@ onMounted(async () => {
         notas: alunoLocal?.notas ?? []
       }
     })
-
+ 
     console.log('Alunos adaptados:', alunosAdaptados)
 
 alunos.value = alunosAdaptados
@@ -360,12 +400,16 @@ if (alunos.value.length > 0) {
   carregandoAlunos.value = false
 }
 })
+
 </script>
+
+
 
 <template>
   <Cabecalho />
 
   <RouterView v-slot="{ Component }">
+
     <component
       :is="Component"
       :turmas="turmasComQuantidade"

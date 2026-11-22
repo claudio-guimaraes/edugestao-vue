@@ -15,6 +15,10 @@ defineProps({
     type: String,
     default: ''
   },
+  erroNotas: {
+  type: String,
+  default: ''
+  },
   calcularMedia: {
     type: Function,
     required: true
@@ -200,6 +204,7 @@ const turmaAlunoEdicao = defineModel('turmaAlunoEdicao', {
           :turma="aluno.turma"
           :media="calcularMedia(aluno.notas)"
           :possui-notas="aluno.notas.length > 0"
+          :erro-notas="erroNotas"
           @selecionar="emit('selecionarAluno', aluno)"
           @editar="emit('editarAluno', aluno)"
           @excluir="emit('excluirAluno', aluno)"

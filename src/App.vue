@@ -21,112 +21,7 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const alunos = ref([
-  {
-    id: 1,
-    nome: 'Lucas Almeida',
-    turma: '1º A',
-  
-    notas: [
-      { disciplina: 'Matemática', nota: 8.5 },
-      { disciplina: 'Língua Portuguesa', nota: 9.0 },
-      { disciplina: 'História', nota: 8.0 },
-      { disciplina: 'Geografia', nota: 8.5 },
-      { disciplina: 'Filosofia', nota: 8.0 }
-    ]
-  },
-  {
-    id: 2,
-    nome: 'Mariana Santos',
-    turma: '1º A',
-    
-    notas: [
-      { disciplina: 'Matemática', nota: 7.0 },
-      { disciplina: 'Língua Portuguesa', nota: 8.0 },
-      { disciplina: 'História', nota: 7.5 },
-      { disciplina: 'Geografia', nota: 6.5 },
-      { disciplina: 'Filosofia', nota: 7.0 }
-    ]
-  },
-  {
-    id: 3,
-    nome: 'Pedro Oliveira',
-    turma: '1º B',
-    
-    notas: [
-      { disciplina: 'Matemática', nota: 6.5 },
-      { disciplina: 'Língua Portuguesa', nota: 7.0 },
-      { disciplina: 'História', nota: 6.5 },
-      { disciplina: 'Geografia', nota: 7.0 },
-      { disciplina: 'Filosofia', nota: 7.0 }
-    ]
-  },
-  {
-    id: 4,
-    nome: 'Ana Costa',
-    turma: '1º B',
-    
-    notas: [
-      { disciplina: 'Matemática', nota: 9.0 },
-      { disciplina: 'Língua Portuguesa', nota: 9.5 },
-      { disciplina: 'História', nota: 8.5 },
-      { disciplina: 'Geografia', nota: 8.5 },
-      { disciplina: 'Filosofia', nota: 8.5 }
-    ]
-  },
-  {
-    id: 5,
-    nome: 'Gabriel Souza',
-    turma: '2º A',
-    
-    notas: [
-      { disciplina: 'Matemática', nota: 5.5 },
-      { disciplina: 'Língua Portuguesa', nota: 6.5 },
-      { disciplina: 'História', nota: 5.0 },
-      { disciplina: 'Geografia', nota: 6.0 },
-      { disciplina: 'Filosofia', nota: 6.0 }
-    ]
-  },
-  {
-    id: 6,
-    nome: 'Beatriz Lima',
-    turma: '2º A',
-    
-    notas: [
-      { disciplina: 'Matemática', nota: 9.5 },
-      { disciplina: 'Língua Portuguesa', nota: 9.0 },
-      { disciplina: 'História', nota: 9.5 },
-      { disciplina: 'Geografia', nota: 9.0 },
-      { disciplina: 'Filosofia', nota: 9.0 }
-    ]
-  },
-  {
-    id: 7,
-    nome: 'Rafael Martins',
-    turma: '3º A',
-    
-    notas: [
-      { disciplina: 'Matemática', nota: 4.5 },
-      { disciplina: 'Língua Portuguesa', nota: 5.0 },
-      { disciplina: 'História', nota: 4.0 },
-      { disciplina: 'Geografia', nota: 5.5 },
-      { disciplina: 'Filosofia', nota: 5.0 }
-    ]
-  },
-  {
-    id: 8,
-    nome: 'Camila Ferreira',
-    turma: '3º A',
-    
-    notas: [
-      { disciplina: 'Matemática', nota: 8.0 },
-      { disciplina: 'Língua Portuguesa', nota: 8.5 },
-      { disciplina: 'História', nota: 7.5 },
-      { disciplina: 'Geografia', nota: 7.0 },
-      { disciplina: 'Filosofia', nota: 8.0 }
-    ]
-  }
-])
+const alunos = ref([])
 
 const turmas = ref([
   { nome: '1º A', turno: 'Manhã' },
@@ -153,10 +48,11 @@ const totalDisciplinas = computed(() => {
 })
 
 const busca = ref('')
-const alunoSelecionado = ref(alunos.value[0])
+const alunoSelecionado = ref(null)
 const mostrarMensagem = ref(false)
 const carregandoAlunos = ref(false)
 const erroAlunos = ref('')
+const erroNotas = ref('')
 const nomeNovoAluno = ref('')
 const alunoEmEdicao = ref(null)
 const nomeAlunoEdicao = ref('')
@@ -245,7 +141,92 @@ try {
   console.log('Aluno cadastrado no MockAPI:', alunoAdaptado)
 } catch (erro) {
   console.error('Erro ao cadastrar aluno:', erro)
+  alert('Não foi possível cadastrar o aluno. Tente novamente.')
 }
+}
+
+async function salvarNovaNota(dadosNota) {
+  try {
+    const novaNota = await cadastrarNota(dadosNota)
+
+    console.log('Nota cadastrada no MockAPI:', novaNota)
+
+    const aluno = alunos.value.find(
+      item => String(item.id) === String(dadosNota.alunoId)
+    )
+
+    if (aluno) {
+      aluno.notas.push({
+        id: novaNota.id,
+        disciplina: novaNota.disciplina,
+        nota: Number(novaNota.nota)
+      })
+    }
+
+  } catch (erro) {
+    console.error('Erro ao cadastrar nota:', erro)
+    alert('Não foi possível cadastrar a nota. Tente novamente.')
+  }
+}
+
+async function salvarEdicaoNota(dadosNota) {
+  try {
+    const notaAtualizada = await atualizarNota(
+      dadosNota.id,
+      {
+        alunoId: dadosNota.alunoId,
+        disciplina: dadosNota.disciplina,
+        nota: dadosNota.nota
+      }
+    )
+
+    const aluno = alunos.value.find(
+      item => String(item.id) === String(dadosNota.alunoId)
+    )
+
+    if (aluno) {
+      const notaLocal = aluno.notas.find(
+        item => String(item.id) === String(dadosNota.id)
+      )
+
+      if (notaLocal) {
+        notaLocal.disciplina = notaAtualizada.disciplina
+        notaLocal.nota = Number(notaAtualizada.nota)
+      }
+    }
+
+    console.log('Nota atualizada com sucesso:', notaAtualizada)
+  } catch (erro) {
+  console.error('Erro ao atualizar nota:', erro)
+  alert('Não foi possível atualizar a nota. Tente novamente.')
+}
+}
+
+async function confirmarExclusaoNota(dadosNota) {
+  const confirmado = window.confirm(
+    `Tem certeza de que deseja excluir a nota de ${dadosNota.disciplina}?`
+  )
+
+  if (!confirmado) {
+    return
+  }
+
+  try {
+    await excluirNota(dadosNota.id)
+
+    const aluno = alunoSelecionado.value
+
+    if (aluno) {
+      aluno.notas = aluno.notas.filter(
+        nota => String(nota.id) !== String(dadosNota.id)
+      )
+    }
+
+    console.log('Nota excluída com sucesso.')
+  } catch (erro) {
+    console.error('Erro ao excluir nota:', erro)
+    alert('Não foi possível excluir a nota.')
+  }
 }
 
 function prepararEdicaoAluno(aluno) {
@@ -275,7 +256,8 @@ async function confirmarExclusaoAluno(aluno) {
 )
 
   } catch (erro) {
-    console.error('Erro ao excluir aluno:', erro)
+  console.error('Erro ao excluir aluno:', erro)
+  alert('Não foi possível excluir o aluno. Tente novamente.')
   }
 }
 
@@ -317,8 +299,9 @@ const dadosAtualizados = {
     alunoEmEdicao.value = null
 
   } catch (erro) {
-    console.error('Erro ao atualizar aluno:', erro)
-  }
+  console.error('Erro ao atualizar aluno:', erro)
+  alert('Não foi possível atualizar o aluno. Tente novamente.')
+}
 }
 
 function atualizarAlunoSelecionado(aluno) {
@@ -335,7 +318,7 @@ async function testarAtualizacaoNota() {
     const notaAtualizada = await atualizarNota(1, {
       alunoId: 1,
       disciplina: 'Matemática',
-      nota: 9.0
+      nota: 8.5
     })
 
     console.log('Nota atualizada no MockAPI:', notaAtualizada)
@@ -355,14 +338,19 @@ async function testarExclusaoNota() {
 }
 
 onMounted(async () => {
+  erroNotas.value = ''
+
+  let notasDaAPI = []
 
   try {
-    const notasDaAPI = await buscarNotas()
+    notasDaAPI = await buscarNotas()
 
     console.log('Notas recebidas do MockAPI:', notasDaAPI)
 
   } catch (erro) {
-    console.error('Erro ao testar cadastro de nota:', erro)
+  console.error('Erro ao carregar notas:', erro)
+  erroNotas.value = 'Não foi possível carregar as notas. Verifique sua conexão e tente novamente.'
+  alert(erroNotas.value)
   }
 
   carregandoAlunos.value = true
@@ -381,7 +369,13 @@ onMounted(async () => {
         nome: alunoAPI.name,
         turma: alunoAPI.turma,
         turno: alunoAPI.turno,
-        notas: alunoLocal?.notas ?? []
+        notas: notasDaAPI
+        .filter(nota => String(nota.alunoId) === String(alunoAPI.id))
+        .map(nota => ({
+          id: nota.id,
+          disciplina: nota.disciplina,
+          nota: Number(nota.nota)
+        }))
       }
     })
  
@@ -403,8 +397,6 @@ if (alunos.value.length > 0) {
 
 </script>
 
-
-
 <template>
   <Cabecalho />
 
@@ -420,6 +412,7 @@ if (alunos.value.length > 0) {
       v-model:busca="busca"
       :aluno="alunoSelecionado"
       :mostrar-mensagem="mostrarMensagem"
+      :erro-notas="erroNotas"
       :total-alunos="alunos.length"
       :total-turmas="turmas.length"
       :total-disciplinas="totalDisciplinas"
@@ -427,6 +420,9 @@ if (alunos.value.length > 0) {
       @selecionar-aluno="selecionarAluno"      
       @aluno-alterado="atualizarAlunoSelecionado"
       @mostrar-aviso="mostrarAviso"
+      @cadastrar-nota="salvarNovaNota"
+      @atualizar-nota="salvarEdicaoNota"
+      @excluir-nota="confirmarExclusaoNota"
       v-model:nomeNovoAluno="nomeNovoAluno"
       v-model:turmaNovoAluno="turmaNovoAluno"
       v-model:nomeAlunoEdicao="nomeAlunoEdicao"

@@ -4,7 +4,11 @@ defineProps({
   nome: String,
   turma: String,
   media: Number,
-  possuiNotas: Boolean
+  possuiNotas: Boolean,
+  erroNotas: {
+    type: String,
+    default: ''
+  }
 })
 
 const emit = defineEmits(['selecionar', 'editar', 'excluir'])
@@ -34,16 +38,27 @@ function situacao(media) {
 
       <div class="rodape-card">
         
-<span v-if="possuiNotas">
-  Média: <strong>{{ media.toFixed(1) }}</strong>
-</span>
+        <span v-if="erroNotas">
+          Média: <strong>Notas indisponíveis</strong>
+        </span>
 
-<span v-else>
-  Média: <strong>Sem notas</strong>
-</span>
+        <span v-else-if="possuiNotas">
+          Média: <strong>{{ media.toFixed(1) }}</strong>
+        </span>
+
+        <span v-else>
+          Média: <strong>Sem notas</strong>
+        </span>
 
         <span
-          v-if="!possuiNotas"
+          v-if="erroNotas"
+          class="situacao"
+        >
+          Notas indisponíveis
+        </span>
+
+        <span
+          v-else-if="!possuiNotas"
           class="situacao"
         >
           Sem notas

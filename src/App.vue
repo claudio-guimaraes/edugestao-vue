@@ -145,31 +145,79 @@ try {
 }
 }
 
+const salvandoNota = ref(false)
+
 async function salvarNovaNota(dadosNota) {
+  if (salvandoNota.value) return
+
+  if (erroNotas.value) {
+    alert('As notas estão indisponíveis. Tente novamente.')
+    return
+  }
+
+  const aluno = alunos.value.find(
+    item => String(item.id) === String(dadosNota.alunoId)
+  )
+
+  if (!aluno) return
+
+  const disciplinaJaExiste = aluno.notas.some(
+    item => item.disciplina === dadosNota.disciplina
+  )
+
+  if (disciplinaJaExiste) {
+    alert('Este aluno já possui uma nota nessa disciplina.')
+    return
+  }
+
+  salvandoNota.value = true
+
   try {
     const novaNota = await cadastrarNota(dadosNota)
 
     console.log('Nota cadastrada no MockAPI:', novaNota)
 
-    const aluno = alunos.value.find(
-      item => String(item.id) === String(dadosNota.alunoId)
-    )
-
-    if (aluno) {
-      aluno.notas.push({
-        id: novaNota.id,
-        disciplina: novaNota.disciplina,
-        nota: Number(novaNota.nota)
-      })
-    }
+    aluno.notas.push({
+      id: novaNota.id,
+      disciplina: novaNota.disciplina,
+      nota: Number(novaNota.nota)
+    })
 
   } catch (erro) {
     console.error('Erro ao cadastrar nota:', erro)
     alert('Não foi possível cadastrar a nota. Tente novamente.')
+  } finally {
+    salvandoNota.value = false
   }
 }
 
 async function salvarEdicaoNota(dadosNota) {
+  if (salvandoNota.value) return
+
+  if (erroNotas.value) {
+    alert('As notas estão indisponíveis. Tente novamente.')
+    return
+  }
+
+  const aluno = alunos.value.find(
+    item => String(item.id) === String(dadosNota.alunoId)
+  )
+
+  if (!aluno) return
+
+  const disciplinaJaExiste = aluno.notas.some(
+    item =>
+      item.disciplina === dadosNota.disciplina &&
+      String(item.id) !== String(dadosNota.id)
+  )
+
+  if (disciplinaJaExiste) {
+    alert('Este aluno já possui uma nota nessa disciplina.')
+    return
+  }
+
+  salvandoNota.value = true
+
   try {
     const notaAtualizada = await atualizarNota(
       dadosNota.id,
@@ -180,26 +228,23 @@ async function salvarEdicaoNota(dadosNota) {
       }
     )
 
-    const aluno = alunos.value.find(
-      item => String(item.id) === String(dadosNota.alunoId)
+    const notaLocal = aluno.notas.find(
+      item => String(item.id) === String(dadosNota.id)
     )
 
-    if (aluno) {
-      const notaLocal = aluno.notas.find(
-        item => String(item.id) === String(dadosNota.id)
-      )
-
-      if (notaLocal) {
-        notaLocal.disciplina = notaAtualizada.disciplina
-        notaLocal.nota = Number(notaAtualizada.nota)
-      }
+    if (notaLocal) {
+      notaLocal.disciplina = notaAtualizada.disciplina
+      notaLocal.nota = Number(notaAtualizada.nota)
     }
 
     console.log('Nota atualizada com sucesso:', notaAtualizada)
+
   } catch (erro) {
-  console.error('Erro ao atualizar nota:', erro)
-  alert('Não foi possível atualizar a nota. Tente novamente.')
-}
+    console.error('Erro ao atualizar nota:', erro)
+    alert('Não foi possível atualizar a nota. Tente novamente.')
+  } finally {
+    salvandoNota.value = false
+  }
 }
 
 async function confirmarExclusaoNota(dadosNota) {

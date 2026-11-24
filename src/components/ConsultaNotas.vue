@@ -205,7 +205,7 @@ function cancelarEdicao() {
 
       <div
         v-for="item in notasOrdenadas"
-        :key="item.disciplina"
+        :key="item.id"
         class="nota"
       >
         <span>{{ item.disciplina }}</span>
